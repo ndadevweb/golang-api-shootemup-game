@@ -1,0 +1,6 @@
+*.db
+*.log
+*.out
+/tmp/
+.air/
+.env

@@ -1,0 +1,26 @@
+basePath: /
+host: localhost:8181
+info:
+  contact: {}
+  description: API de base pour jeu en Go
+  title: Gowebgame API
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Affiche un message de bienvenue
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Accueil
+      tags:
+      - Accueil
+swagger: "2.0"

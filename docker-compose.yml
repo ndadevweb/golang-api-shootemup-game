@@ -1,0 +1,56 @@
+services:
+  back-api:
+    build:
+      context: .
+      dockerfile: docker/go/Dockerfile
+    container_name: back-api
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./api:/app:cached
+      - ./api/data:/app/data
+    working_dir: /app
+    tty: true
+
+  front-public:
+    build:
+      context: .
+      dockerfile: docker/client/Dockerfile
+    container_name: front-public
+    ports:
+      - "8282:5173"
+    volumes:
+      - ./client:/app
+    working_dir: /app
+
+  front-admin:
+    build:
+      context: .
+      dockerfile: docker/admin/Dockerfile
+    container_name: front-admin
+    ports:
+      - "8383:5173"
+    volumes:
+      - ./admin:/app
+    working_dir: /app
+
+  back-redis:
+    image: redis:7-alpine
+    container_name: back-redis
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+  front-redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: front-redis-ui
+    platform: linux/amd64
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8484:8081"
+    depends_on:
+      - back-redis
+
+volumes:
+  redis-data:
