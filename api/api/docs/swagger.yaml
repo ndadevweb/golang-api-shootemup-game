@@ -1,8 +1,12 @@
 basePath: /
 definitions:
-  signup.SignupRequest:
+  models.User:
     properties:
-      password:
+      created_at:
+        type: string
+      id:
+        type: integer
+      updated_at:
         type: string
       username:
         type: string
@@ -43,7 +47,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/signup.SignupRequest'
+          $ref: '#/definitions/models.User'
       produces:
       - application/json
       responses:

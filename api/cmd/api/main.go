@@ -1,9 +1,3 @@
-// @title Gowebgame API
-// @version 1.0
-// @description API de base pour jeu en Go
-// @host localhost:8181
-// @BasePath /
-
 package main
 
 import (
@@ -18,6 +12,11 @@ import (
 	Router "gowebgame/internal/router"
 )
 
+// @title Gowebgame API
+// @version 1.0
+// @description API de base pour jeu en Go
+// @host localhost:8181
+// @BasePath /
 func main() {
 	Cache.InitRedis()
 	Database.InitSQLite()

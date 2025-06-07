@@ -61,7 +61,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/signup.SignupRequest"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 ],
@@ -98,10 +98,16 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "signup.SignupRequest": {
+        "models.User": {
             "type": "object",
             "properties": {
-                "password": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updated_at": {
                     "type": "string"
                 },
                 "username": {
