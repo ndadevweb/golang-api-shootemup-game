@@ -147,6 +147,37 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/private": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Affiche un message indiquant que l'on est sur une page privee",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Private"
+                ],
+                "summary": "Page privee",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -183,7 +214,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "BearerAuth": {
-            "description": "Type \"Bearer\" suivi d'un espace et de votre token JWT.",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

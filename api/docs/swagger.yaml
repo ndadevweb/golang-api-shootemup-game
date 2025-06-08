@@ -114,9 +114,29 @@ paths:
       summary: Inscription utilisateur
       tags:
       - Authentification
+  /private:
+    get:
+      consumes:
+      - application/json
+      description: Affiche un message indiquant que l'on est sur une page privee
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Page privee
+      tags:
+      - Private
 securityDefinitions:
   BearerAuth:
-    description: Type "Bearer" suivi d'un espace et de votre token JWT.
+    description: 'JWT Authorization header using the Bearer scheme. Example: "Bearer
+      {token}"'
     in: header
     name: Authorization
     type: apiKey
