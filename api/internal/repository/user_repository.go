@@ -8,6 +8,7 @@ import (
 
 type UserRepository interface {
 	CreateUser(user *models.User) error
+	FindByUsername(username string) (*models.User, error)
 }
 
 type userRepository struct {
@@ -31,4 +32,15 @@ func (r *userRepository) CreateUser(user *models.User) error {
 	}
 
 	return nil
+}
+
+func (r *userRepository) FindByUsername(username string) (*models.User, error) {
+	row := r.DB.QueryRow("SELECT id, username, password FROM users WHERE username = ?", username)
+
+	var user models.User
+	if err := row.Scan(&user.ID, &user.Username, &user.Password); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }

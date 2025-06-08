@@ -41,6 +41,58 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/signin": {
+            "post": {
+                "description": "Authentifie un utilisateur existant et renvoie un token JWT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Connexion utilisateur",
+                "parameters": [
+                    {
+                        "description": "Identifiants de l'utilisateur",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/signin.SigninRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JWT généré",
+                        "schema": {
+                            "$ref": "#/definitions/signin.SigninResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants incorrects",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/auth/signup": {
             "post": {
                 "description": "Crée un nouveau compte utilisateur avec un identifiant unique et un mot de passe",
@@ -98,6 +150,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "signin.SigninRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "signin.SigninResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
         "signup.SignupRequest": {
             "type": "object",
             "properties": {
@@ -108,6 +179,14 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" suivi d'un espace et de votre token JWT.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

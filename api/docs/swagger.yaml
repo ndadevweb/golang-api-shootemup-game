@@ -1,5 +1,17 @@
 basePath: /
 definitions:
+  signin.SigninRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  signin.SigninResponse:
+    properties:
+      token:
+        type: string
+    type: object
   signup.SignupRequest:
     properties:
       password:
@@ -31,6 +43,40 @@ paths:
       summary: Accueil
       tags:
       - Accueil
+  /auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Authentifie un utilisateur existant et renvoie un token JWT
+      parameters:
+      - description: Identifiants de l'utilisateur
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/signin.SigninRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT généré
+          schema:
+            $ref: '#/definitions/signin.SigninResponse'
+        "400":
+          description: Requête invalide
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Identifiants incorrects
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Connexion utilisateur
+      tags:
+      - Authentification
   /auth/signup:
     post:
       consumes:
@@ -68,4 +114,10 @@ paths:
       summary: Inscription utilisateur
       tags:
       - Authentification
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" suivi d'un espace et de votre token JWT.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

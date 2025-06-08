@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	httpSwagger "github.com/swaggo/http-swagger"
 	AuthSignup "gowebgame/features/auth/signup"
+	AuthSignin "gowebgame/features/auth/signin"
 )
 
 func InitRoute() http.Handler {
@@ -13,6 +14,9 @@ func InitRoute() http.Handler {
 	r.Get("/", WelcomeHandler)
 
 	r.Post("/auth/signup", AuthSignup.SignupHandler())
+
+	r.Post("/auth/signin", AuthSignin.SigninHandler())
+
 
 	// Swagger
 	r.Get("/swagger/*", httpSwagger.WrapHandler)

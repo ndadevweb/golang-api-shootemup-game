@@ -17,6 +17,10 @@ import (
 // @description API de base pour jeu en Go
 // @host localhost:8181
 // @BasePath /
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" suivi d'un espace et de votre token JWT.
 func main() {
 	Cache.InitRedis()
 	Database.InitSQLite()
