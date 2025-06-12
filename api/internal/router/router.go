@@ -12,12 +12,14 @@ import (
 func InitRoute() http.Handler {
 	r := chi.NewRouter()
 
-	r.Get("/", WelcomeHandler)
-	r.With(Middleware.JWTMiddleware).Get("/private", PrivateHandler)
-
-	r.Post("/auth/signup", AuthSignup.SignupHandler())
-	r.Post("/auth/signin", AuthSignin.SigninHandler())
-
+	r.Route("/api", func(api chi.Router) {
+		api.Get("/", WelcomeHandler)
+		api.With(Middleware.JWTMiddleware).Get("/private", PrivateHandler)
+	
+		api.Post("/auth/signup", AuthSignup.SignupHandler())
+		api.Post("/auth/signin", AuthSignin.SigninHandler())
+	})
+	
 
 	// Swagger
 	r.Get("/swagger/*", httpSwagger.WrapHandler)
@@ -31,7 +33,7 @@ func InitRoute() http.Handler {
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]string
-// @Router / [get]
+// @Router /api [get]
 func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -45,7 +47,7 @@ func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 // @Security BearerAuth
 // @Produce json
 // @Success 200 {object} map[string]string
-// @Router /private [get]
+// @Router /api/private [get]
 func PrivateHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

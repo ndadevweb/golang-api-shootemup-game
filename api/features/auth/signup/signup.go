@@ -24,7 +24,7 @@ type SignupRequest struct {
 // @Success 201 {object} map[string]string "Message de confirmation"
 // @Failure 400 {object} map[string]string "Erreur de validation"
 // @Failure 500 {object} map[string]string "Erreur serveur ou utilisateur déjà existant"
-// @Router /auth/signup [post]
+// @Router /api/auth/signup [post]
 func SignupHandler() http.HandlerFunc {
 	sqlite := db.GetDB()
 	userRepo := repository.NewUserRepository(sqlite)

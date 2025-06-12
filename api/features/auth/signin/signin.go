@@ -28,7 +28,7 @@ type SigninResponse struct {
 // @Success 200 {object} SigninResponse "JWT généré"
 // @Failure 400 {object} map[string]string "Requête invalide"
 // @Failure 401 {object} map[string]string "Identifiants incorrects"
-// @Router /auth/signin [post]
+// @Router /api/auth/signin [post]
 func SigninHandler() http.HandlerFunc {
 	sqlite := db.GetDB()
 	userRepo := repository.NewUserRepository(sqlite)

@@ -26,7 +26,7 @@ info:
   title: Gowebgame API
   version: "1.0"
 paths:
-  /:
+  /api:
     get:
       consumes:
       - application/json
@@ -43,6 +43,25 @@ paths:
       summary: Accueil
       tags:
       - Accueil
+  /api/private:
+    get:
+      consumes:
+      - application/json
+      description: Affiche un message indiquant que l'on est sur une page privee
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Page privee
+      tags:
+      - Private
   /auth/signin:
     post:
       consumes:
@@ -114,29 +133,9 @@ paths:
       summary: Inscription utilisateur
       tags:
       - Authentification
-  /private:
-    get:
-      consumes:
-      - application/json
-      description: Affiche un message indiquant que l'on est sur une page privee
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      security:
-      - BearerAuth: []
-      summary: Page privee
-      tags:
-      - Private
 securityDefinitions:
   BearerAuth:
-    description: 'JWT Authorization header using the Bearer scheme. Example: "Bearer
-      {token}"'
+    description: Type "Bearer" suivi d'un espace et de votre token JWT.
     in: header
     name: Authorization
     type: apiKey
