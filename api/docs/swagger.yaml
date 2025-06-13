@@ -14,9 +14,9 @@ definitions:
     type: object
   signup.SignupRequest:
     properties:
-      password:
+      login:
         type: string
-      username:
+      password:
         type: string
     type: object
 host: localhost:8181
@@ -43,26 +43,7 @@ paths:
       summary: Accueil
       tags:
       - Accueil
-  /api/private:
-    get:
-      consumes:
-      - application/json
-      description: Affiche un message indiquant que l'on est sur une page privee
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      security:
-      - BearerAuth: []
-      summary: Page privee
-      tags:
-      - Private
-  /auth/signin:
+  /api/auth/signin:
     post:
       consumes:
       - application/json
@@ -96,7 +77,7 @@ paths:
       summary: Connexion utilisateur
       tags:
       - Authentification
-  /auth/signup:
+  /api/auth/signup:
     post:
       consumes:
       - application/json
@@ -133,6 +114,25 @@ paths:
       summary: Inscription utilisateur
       tags:
       - Authentification
+  /api/private:
+    get:
+      consumes:
+      - application/json
+      description: Affiche un message indiquant que l'on est sur une page privee
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Page privee
+      tags:
+      - Private
 securityDefinitions:
   BearerAuth:
     description: Type "Bearer" suivi d'un espace et de votre token JWT.

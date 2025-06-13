@@ -10,7 +10,7 @@ import (
 )
 
 type SignupRequest struct {
-	Username string `json:"username"`
+	Username string `json:"login"`
 	Password string `json:"password"`
 }
 
@@ -32,19 +32,35 @@ func SignupHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req SignupRequest
 
+		w.Header().Set("Content-Type", "application/json")
+
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			http.Error(w, "Invalid request", http.StatusBadRequest)
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Invalid request",
+			})
 			return
 		}
 
-		if len(req.Username) < 3 || len(req.Password) < 6 {
-			http.Error(w, "Invalid username or password too short", http.StatusUnprocessableEntity)
+		if len(req.Username) < 2  {
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Invalid username (2 characters or more required)",
+			})
+			return
+		}
+
+		if len(req.Password) < 8  {
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Invalid password (8 characters or more required)",
+			})
 			return
 		}
 
 		hashedPassword, err := utils.HashPassword(req.Password)
 		if err != nil {
-			http.Error(w, "Error hashing password", http.StatusInternalServerError)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
@@ -55,7 +71,10 @@ func SignupHandler() http.HandlerFunc {
 
 		err = userRepo.CreateUser(user)
 		if err != nil {
-			http.Error(w, "Username already exists", http.StatusConflict)
+			w.WriteHeader(http.StatusConflict)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "This username is already used",
+			})
 			return
 		}
 

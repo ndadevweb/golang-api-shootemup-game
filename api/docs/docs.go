@@ -41,38 +41,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/private": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Affiche un message indiquant que l'on est sur une page privee",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Private"
-                ],
-                "summary": "Page privee",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/signin": {
+        "/api/auth/signin": {
             "post": {
                 "description": "Authentifie un utilisateur existant et renvoie un token JWT",
                 "consumes": [
@@ -124,7 +93,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/signup": {
+        "/api/auth/signup": {
             "post": {
                 "description": "Crée un nouveau compte utilisateur avec un identifiant unique et un mot de passe",
                 "consumes": [
@@ -178,6 +147,37 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/private": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Affiche un message indiquant que l'on est sur une page privee",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Private"
+                ],
+                "summary": "Page privee",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -203,10 +203,10 @@ const docTemplate = `{
         "signup.SignupRequest": {
             "type": "object",
             "properties": {
-                "password": {
+                "login": {
                     "type": "string"
                 },
-                "username": {
+                "password": {
                     "type": "string"
                 }
             }
