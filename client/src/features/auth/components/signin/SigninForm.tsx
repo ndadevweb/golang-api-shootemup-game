@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { signin } from '@/features/auth/api/signin'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircleIcon } from 'lucide-react'
+import useAuthStore from '@/state/useAuthStore'
 
 
 const signinSchema = z.object({
@@ -18,15 +19,18 @@ const signinSchema = z.object({
 // type SigninFormValues = z.infer<typeof signinSchema>
 
 export function SigninForm() {
+    const setJwt = useAuthStore((state) => state.setJwt)
     const { register, setFocus, handleSubmit, setError, formState: { errors } } = useForm<SigninFormInterface>({
         resolver: zodResolver(signinSchema),
     })
 
     const onSubmit = async (data: SigninFormInterface) => {
-        await signin(data)
-            .catch((error) => {
-                setError('root', { message: error.message })
-            })
+        try {
+            const response = await signin(data);
+            setJwt(response.token);
+        } catch (error: any) {
+            setError('root', { message: error.message });
+        }
     }
 
     useEffect(() => {
