@@ -1,18 +1,25 @@
 import { createBrowserRouter } from "react-router"
+import HomePage from './pages/homepage'
 import SignupPage from "./pages/auth/Signup"
 import SigninPage from "./pages/auth/Signin"
 
+export const ROUTES = {
+    'homepage': '/',
+    'signup': '/signup',
+    'signin': '/signin'
+}
+
 export const router = createBrowserRouter([
     {
-        path: "/",
-        Component: SignupPage,
+        path: ROUTES.homepage,
+        Component: HomePage,
     },
     {
-        path: "/signup",
+        path: ROUTES.signup,
         Component: SignupPage
     },
     {
-        path: "/signin",
+        path: ROUTES.signin,
         Component: SigninPage
     }
 ]);
