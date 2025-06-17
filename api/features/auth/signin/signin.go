@@ -35,25 +35,40 @@ func SigninHandler() http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req SigninRequest
+
+		w.Header().Set("Content-Type", "application/json")
+
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			http.Error(w, "Invalid request", http.StatusBadRequest)
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Invalid request",
+			})
 			return
 		}
 
 		user, err := userRepo.FindByUsername(req.Username)
 		if err != nil {
-			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Authentication failed",
+			})
 			return
 		}
 
 		if !utils.CheckPasswordHash(req.Password, user.Password) {
-			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Authentication failed",
+			})
 			return
 		}
 
 		token, err := jwt.GenerateJWT(user.Username)
 		if err != nil {
-			http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": "Internal Server Error",
+			})
 			return
 		}
 
