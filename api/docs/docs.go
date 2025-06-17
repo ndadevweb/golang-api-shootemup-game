@@ -184,10 +184,10 @@ const docTemplate = `{
         "signin.SigninRequest": {
             "type": "object",
             "properties": {
-                "password": {
+                "login": {
                     "type": "string"
                 },
-                "username": {
+                "password": {
                     "type": "string"
                 }
             }
