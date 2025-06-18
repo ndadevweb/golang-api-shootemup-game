@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router'
 import { onlyAuthenticatedLoader } from './features/auth/loaders/onlyAuthenticated'
+import { onlyGuestLoader } from './features/auth/loaders/onlyGuest'
 import HomePage from './pages/homepage'
 import SignupPage from './pages/auth/Signup'
 import SigninPage from './pages/auth/Signin'
@@ -17,14 +18,17 @@ export const router = createBrowserRouter([
     {
         path: ROUTES.homepage,
         Component: HomePage,
+        loader: onlyGuestLoader
     },
     {
         path: ROUTES.signup,
-        Component: SignupPage
+        Component: SignupPage,
+        loader: onlyGuestLoader
     },
     {
         path: ROUTES.signin,
-        Component: SigninPage
+        Component: SigninPage,
+        loader: onlyGuestLoader
     },
 
     {
